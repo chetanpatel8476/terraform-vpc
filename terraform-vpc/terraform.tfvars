@@ -1,5 +1,5 @@
 # Values of AWS related variables
-region      = "eu-west"
+region      = "eu-west-1"
 environment = "dev"
 
 # Values of VPC modules variables

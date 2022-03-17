@@ -24,7 +24,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.environment}-${element(var.availability_zones, count.index)}-public-subnet"
+    Name        = "${var.environment}-mydevops-${element(var.availability_zones, count.index)}-public-subnet"
     Environment = "${var.environment}"
   }
 }
@@ -40,7 +40,7 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name        = "${var.environment}-${element(var.availability_zones, count.index)}-private-subnet"
+    Name        = "${var.environment}-mydevops-${element(var.availability_zones, count.index)}-private-subnet"
     Environment = "${var.environment}"
   }
 }
@@ -52,7 +52,7 @@ resource "aws_route_table" "private" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   tags = {
-    Name        = "${var.environment}-private-route-table"
+    Name        = "${var.environment}-mydevops-private-route-table"
     Environment = "${var.environment}"
   }
 }
@@ -64,7 +64,7 @@ resource "aws_route_table" "public" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   tags = {
-    Name        = "${var.environment}-public-route-table"
+    Name        = "${var.environment}-mydevops-public-route-table"
     Environment = "${var.environment}"
   }
 }
@@ -94,7 +94,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   tags = {
-    Name        = "${var.environment}-igw"
+    Name        = "${var.environment}-mydevops-igw"
     Environment = "${var.environment}"
   }
 }
@@ -116,7 +116,7 @@ resource "aws_nat_gateway" "nat" {
   depends_on    = [aws_internet_gateway.igw]
 
   tags = {
-    Name        = "nat-gw"
+    Name        = "${var.environment}-mydevops-nat-gw"
     Environment = "${var.environment}"
   }
 }
@@ -127,7 +127,7 @@ resource "aws_nat_gateway" "nat" {
 resource "aws_route" "public_internet_gateway" {
   route_table_id         = "${aws_route_table.public.id}"
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = "${aws_internet_gateway.ig.id}"
+  gateway_id             = "${aws_internet_gateway.igw.id}"
 }
 
 ##############################################
