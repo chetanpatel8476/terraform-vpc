@@ -24,7 +24,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.environment}-mydevops-${element(var.availability_zones, count.index)}-public-subnet"
+    Name        = "${var.environment}-mydevopslab-${element(var.availability_zones, count.index)}-public-subnet"
     Environment = "${var.environment}"
   }
 }
@@ -40,7 +40,7 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name        = "${var.environment}-mydevops-${element(var.availability_zones, count.index)}-private-subnet"
+    Name        = "${var.environment}-mydevopslab-${element(var.availability_zones, count.index)}-private-subnet"
     Environment = "${var.environment}"
   }
 }
@@ -52,7 +52,7 @@ resource "aws_route_table" "private" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   tags = {
-    Name        = "${var.environment}-mydevops-private-route-table"
+    Name        = "${var.environment}-mydevopslab-private-route-table"
     Environment = "${var.environment}"
   }
 }
@@ -64,7 +64,7 @@ resource "aws_route_table" "public" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   tags = {
-    Name        = "${var.environment}-mydevops-public-route-table"
+    Name        = "${var.environment}-mydevopslab-public-route-table"
     Environment = "${var.environment}"
   }
 }
@@ -94,7 +94,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   tags = {
-    Name        = "${var.environment}-mydevops-igw"
+    Name        = "${var.environment}-mydevopslab-igw"
     Environment = "${var.environment}"
   }
 }
@@ -116,7 +116,7 @@ resource "aws_nat_gateway" "nat" {
   depends_on    = [aws_internet_gateway.igw]
 
   tags = {
-    Name        = "${var.environment}-mydevops-nat-gw"
+    Name        = "${var.environment}-mydevopslab-nat-gw"
     Environment = "${var.environment}"
   }
 }
@@ -143,7 +143,7 @@ resource "aws_route" "private_nat_gateway" {
 # Default VPC SG Creation
 ##############################################
 resource "aws_security_group" "default" {
-  name        = "${var.environment}-mydevops-sg"
+  name        = "${var.environment}-mydevopslab-sg"
   description = "Default security group to allow inbound/outbound from the VPC"
   vpc_id      = "${aws_vpc.vpc.id}"
   depends_on  = [aws_vpc.vpc]
